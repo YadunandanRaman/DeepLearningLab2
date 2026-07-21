@@ -13,7 +13,7 @@ hyperparameter optimization using RandomizedSearchCV and SciKeras.
 - `3_model_construction.py` - builds the baseline MLP and prints `model.summary()` 
 - `4_train_model.py` - compiles and trains the baseline model, saves it, plots 4 training curves 
 - `5_evaluate.py` - accuracy/precision/recall/F1/confusion matrix/classification report on the baseline model 
-- `6_hyperparameter_search.py` - RandomizedSearchCV over the Section 7 search space, retrains the best config on the full training set, compares against the baseline 
+- `6_hyperparameter_search.py` - RandomizedSearchCV over the search space, retrains the best config on the full training set, compares against the baseline 
 
 
 | # | Plot | Produced by |
