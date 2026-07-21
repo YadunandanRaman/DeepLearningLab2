@@ -6,18 +6,15 @@ hyperparameter optimization using RandomizedSearchCV and SciKeras.
 
 ## Files
 
-- `plot_style.py` - shared plotting setup: loads Times New Roman, saves figures as EPS at 600 DPI
-- `model_builder.py` - the baseline architecture (Task 3) and the flexible architecture used only by the hyperparameter search (Section 7)
-- `1_data_exploration.py` - load Fashion-MNIST, print dimensions, sample images, class distribution (Task 1)
-- `2_preprocessing.py` - flatten, normalize, one-hot encode, prints tensor shapes before/after (Task 2)
-- `3_model_construction.py` - builds the baseline MLP and prints `model.summary()` (Task 3)
-- `4_train_model.py` - compiles and trains the baseline model, saves it, plots 4 training curves (Task 4)
-- `5_evaluate.py` - accuracy/precision/recall/F1/confusion matrix/classification report on the baseline model (Task 5)
-- `6_hyperparameter_search.py` - RandomizedSearchCV over the Section 7 search space, retrains the best config on the full training set, compares against the baseline (Section 7)
+- `plot_style.py` - shared plotting setup
+- `model_builder.py` - the baseline architecture  and the flexible architecture used only by the hyperparameter search 
+- `1_data_exploration.py` - load Fashion-MNIST, print dimensions, sample images, class distribution 
+- `2_preprocessing.py` - flatten, normalize, one-hot encode, prints tensor shapes before/after 
+- `3_model_construction.py` - builds the baseline MLP and prints `model.summary()` 
+- `4_train_model.py` - compiles and trains the baseline model, saves it, plots 4 training curves 
+- `5_evaluate.py` - accuracy/precision/recall/F1/confusion matrix/classification report on the baseline model 
+- `6_hyperparameter_search.py` - RandomizedSearchCV over the Section 7 search space, retrains the best config on the full training set, compares against the baseline 
 
-All figures are saved as `.eps` at 600 DPI, in Times New Roman, with axis
-labels and a legend on every plot, matching the 9 mandatory plots listed
-in Section 8 of the lab manual:
 
 | # | Plot | Produced by |
 |---|------|-------------|
