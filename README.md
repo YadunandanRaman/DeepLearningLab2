@@ -14,7 +14,7 @@ hyperparameter optimization using RandomizedSearchCV and SciKeras.
 - `4_train_model.py` - compiles and trains the baseline model, saves it, plots 4 training curves (Task 4)
 - `5_evaluate.py` - accuracy/precision/recall/F1/confusion matrix/classification report on the baseline model (Task 5)
 - `6_hyperparameter_search.py` - RandomizedSearchCV over the Section 7 search space, retrains the best config on the full training set, compares against the baseline (Section 7)
-- `7_xor_gate.py` - builds a multi-layer perceptron from scratch (no numpy/scikit-learn) to solve the XOR gate using backpropagation and plots the decision boundary
+- `7_xor_gate.py` - builds a multi-layer perceptron to solve the XOR gate using backpropagation and plots the decision boundary
 
 All figures are saved as `.eps` at 600 DPI, in Times New Roman, with axis
 labels and a legend on every plot, matching the 9 mandatory plots listed
