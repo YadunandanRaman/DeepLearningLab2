@@ -59,14 +59,32 @@ def sigmoid_derivative(a):
     return a * (1.0 - a)
 
 
+def binary_cross_entropy(output, target):
+    # clipped to avoid log(0) when the network is extremely confident
+    eps = 1e-12
+    output = min(max(output, eps), 1.0 - eps)
+    return -(target * math.log(output) + (1.0 - target) * math.log(1.0 - output))
+
+
 class MultiLayerPerceptron:
     """
     A minimal 2 input, N hidden, 1 output network, trained with full
-    batch gradient descent and mean squared error, the simplest loss
-    function to derive backpropagation for by hand.
+    batch gradient descent and binary cross entropy loss.
+
+    Binary cross entropy is the natural loss for a sigmoid output, since
+    a sigmoid represents a Bernoulli probability and cross entropy is
+    exactly the negative log likelihood of that distribution. It also
+    has a practical advantage over mean squared error: for a sigmoid
+    output, the gradient of cross entropy with respect to the pre
+    activation z simplifies to (output - target), with the sigmoid's
+    own derivative cancelling out completely. Mean squared error does
+    not get this cancellation, so its gradient carries an extra
+    output * (1 - output) factor that shrinks toward zero whenever the
+    network is confidently wrong, slowing learning exactly when it is
+    needed most. Cross entropy does not have this problem.
     """
 
-    def __init__(self, num_inputs, num_hidden, learning_rate=20.0, seed=42):
+    def __init__(self, num_inputs, num_hidden, learning_rate=5.0, seed=42):
         random.seed(seed)
         self.lr = learning_rate
         self.num_hidden = num_hidden
@@ -134,10 +152,12 @@ class MultiLayerPerceptron:
 
             for x, target in zip(X, y):
                 hidden_out, output = self.forward(x)
-                error = output - target
-                total_loss += error ** 2
+                total_loss += binary_cross_entropy(output, target)
 
-                delta_output = error * sigmoid_derivative(output)
+                # for a sigmoid output trained with binary cross entropy,
+                # the gradient with respect to the pre activation simplifies
+                # to (output - target), the sigmoid derivative cancels out
+                delta_output = output - target
                 for j in range(self.num_hidden):
                     grad_w_output[j] += delta_output * hidden_out[j]
                 grad_b_output += delta_output
@@ -156,11 +176,11 @@ class MultiLayerPerceptron:
             self.b_output -= self.lr * grad_b_output / m
 
             mean_loss = total_loss / m
-            print(f"epoch {epoch}: mean squared error={mean_loss:.5f}")
+            print(f"epoch {epoch}: binary cross entropy={mean_loss:.5f}")
 
             if epoch % snapshot_every == 0 or epoch == max_epochs:
                 self._record(epoch, mean_loss,
-                              f"epoch {epoch}, mean squared error={mean_loss:.5f}")
+                              f"epoch {epoch}, binary cross entropy={mean_loss:.5f}")
 
         return self.history
 
@@ -255,7 +275,7 @@ if __name__ == "__main__":
     X_xor = [(0, 0), (0, 1), (1, 0), (1, 1)]
     y_xor = [0, 1, 1, 0]
 
-    mlp = MultiLayerPerceptron(num_inputs=2, num_hidden=2, learning_rate=20.0, seed=42)
+    mlp = MultiLayerPerceptron(num_inputs=2, num_hidden=2, learning_rate=5.0, seed=42)
     history = mlp.train(X_xor, y_xor, max_epochs=400, snapshot_every=25)
 
     print_history("XOR", history)
